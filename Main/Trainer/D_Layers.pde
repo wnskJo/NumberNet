@@ -7,13 +7,13 @@ class Layer {
   float learningRate;
 
   /* Constructor */
-  Layer(int connectionNum, int neuronNum) { //<>//
+  Layer(int connectionNum, int neuronNum) { //<>// //<>//
     for (int i = 0; i < neuronNum; i++) {
-      Neuron newNeuron = new Neuron(connectionNum); //<>//
+      Neuron newNeuron = new Neuron(connectionNum); //<>// //<>//
       addNeuron(newNeuron);
       addLOutput();
     }
-  } //<>//
+  } //<>// //<>//
 
   /* Methods */
 
@@ -74,7 +74,7 @@ class Layer {
 
     setLError(0);
     for (int i = 0; i < neuronCount; i++) {
-      neurons[i].deltaError = lOutputs[i]*(1 - lOutputs[i])*(lExpectedOutputs[i]-lOutputs[i]);
+        neurons[i].deltaError = lOutputs[i]*(1 - lOutputs[i])*(lExpectedOutputs[i]-lOutputs[i]);
 
       increaseLError(abs(lExpectedOutputs[i] - lOutputs[i]));
     }
