@@ -55,8 +55,8 @@ void guessCursor() {
 
 // Clear canvas
 void clearInputValues() {
-  for(int i = 0; i < 25; i++) {
-    for(int j = 0; j < 25; j++) {
+  for(int i = 0; i < 28; i++) {
+    for(int j = 0; j < 28; j++) {
       inputValues[i][j] = 0;
     }
   }
@@ -64,12 +64,12 @@ void clearInputValues() {
 
 // Display drawn input on canvas
 void drawInputsOnCanvas() {
-  for(int i = 0; i < 25; i++) {
-    for(int j = 0; j < 25; j++) {
+  for(int i = 0; i < 28; i++) {
+    for(int j = 0; j < 28; j++) {
       if(inputValues[i][j] == 1) {
         fill(0);
         rectMode(CENTER);
-        rect((j * 11) + (canvas.getX() + 8 - (canvas.getWidth()/2)), (i * 11) + (canvas.getY() + 8 - (canvas.getHeight()/2)), 11, 11);
+        rect((j * 10) + (canvas.getX() + 8 - (canvas.getWidth()/2)), (i * 10) + (canvas.getY() + 8 - (canvas.getHeight()/2)), 10, 10);
       }
     }
   }

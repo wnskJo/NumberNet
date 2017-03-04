@@ -11,7 +11,7 @@ class NeuralNetwork {
   int retrainChances;
 
   NeuralNetwork() {
-    learningRate = 0.1; // default learning rate
+    learningRate = 0.01; // default learning rate
   }
 
 
