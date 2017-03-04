@@ -63,7 +63,7 @@ int guessIntroColor;
 //Neural Network
 NeuralNetwork nNetwork;
 float[] networkInputs = {};
-float[][] inputValues = new float[25][25];
+float[][] inputValues = new float[28][28];
 
 
 public void setup() {
@@ -80,9 +80,9 @@ public void setup() {
   surface.setLocation(500, 150);
 
   // load animations
-  logoAnimationRed = new Movie(this, "Videos/RedLogo.avi");
-  logoAnimationBlue = new Movie(this, "Videos/BlueLogo.avi");
-  println("Video loaded");
+  logoAnimationRed = new Movie(this, "Videos/RedLogo.mp4");
+  logoAnimationBlue = new Movie(this, "Videos/BlueLogo.mp4");
+
   // Miscellaneous
   noStroke();
   textFont(roboto);
@@ -92,8 +92,8 @@ public void setup() {
   slideUp = true;
 
   // initialize inputValues for canvas; 0 means white 1 means black
-  for (int i = 0; i < 25; i++) {
-    for (int j = 0; j < 25; j++) {
+  for (int i = 0; i < 28; i++) {
+    for (int j = 0; j < 28; j++) {
       inputValues[i][j] = 0;
     }
   }
@@ -106,11 +106,9 @@ public void draw() {
     // plays the animation in the beginning
     case "GUESSSTART":
       playAnimation(logoAnimationBlue);
-      println("Playing Animation");
       // checking to see if the animation ended
       if (logoAnimationBlue.time() == logoAnimationBlue.duration()) {
         logoAnimationBlue.stop();
-        println("Animation Stopped");
         // setting slide up animation color to blue
         guessIntroColor = 0xff0090e9;
         programState = "GUESS";
@@ -174,7 +172,7 @@ public void mouseDragged() {
   // Draw on canvas and inputValues receives input
   if (programState == "GUESS") {
     if (canvas.mouseOverElement()) {
-      inputValues[PApplet.parseInt(canvas.getRelativePosition("y")/11.2f)][PApplet.parseInt(canvas.getRelativePosition("x")/11.2f)] = 1;
+      inputValues[PApplet.parseInt(canvas.getRelativePosition("y")/10)][PApplet.parseInt(canvas.getRelativePosition("x")/10)] = 1;
     }
   }
 }
@@ -264,16 +262,16 @@ public void drawFrame() {
 }
 
 // Plays animations
-//    Should be noted that for some weird reasons, the video plays flipped horizontally.
+//    Should be noted that for some weird reasons, the AVI format plays flipped horizontally.
 //    It has to be scaled and flipped manually to play correctly.
 public void playAnimation(Movie m) {
-  // m.play();
-  // pushMatrix();
-  // scale(1, -1);
-  // image(m, 0, -m.height);
-  // popMatrix();
-  m.play();
-  image(m, 0, 0);
+   //m.play();
+   //pushMatrix();
+   //scale(1, -1);
+   //image(m, 0, -m.height);
+   //popMatrix();
+   m.play();
+   image(m, 0, 0);
 }
 
 // Required in order to use Movie library
@@ -767,8 +765,8 @@ public void guessCursor() {
 
 // Clear canvas
 public void clearInputValues() {
-  for(int i = 0; i < 25; i++) {
-    for(int j = 0; j < 25; j++) {
+  for(int i = 0; i < 28; i++) {
+    for(int j = 0; j < 28; j++) {
       inputValues[i][j] = 0;
     }
   }
@@ -776,12 +774,12 @@ public void clearInputValues() {
 
 // Display drawn input on canvas
 public void drawInputsOnCanvas() {
-  for(int i = 0; i < 25; i++) {
-    for(int j = 0; j < 25; j++) {
+  for(int i = 0; i < 28; i++) {
+    for(int j = 0; j < 28; j++) {
       if(inputValues[i][j] == 1) {
         fill(0);
         rectMode(CENTER);
-        rect((j * 11) + (canvas.getX() + 8 - (canvas.getWidth()/2)), (i * 11) + (canvas.getY() + 8 - (canvas.getHeight()/2)), 11, 11);
+        rect((j * 10) + (canvas.getX() + 8 - (canvas.getWidth()/2)), (i * 10) + (canvas.getY() + 8 - (canvas.getHeight()/2)), 10, 10);
       }
     }
   }

@@ -11,16 +11,16 @@ class NeuralNetwork {
   int retrainChances;
 
   NeuralNetwork() {
-    learningRate = 0.1; // default learning rate
+    learningRate = 0.01; // default learning rate
   }
 
 
   // Methods
 
   // Function to add the right number of layers
-  void addLayer(int connectionNum, int neuronNum) { //<>//
-    layers = (Layer[]) append(layers, new Layer(connectionNum, neuronNum)); //<>//
-  } //<>//
+  void addLayer(int connectionNum, int neuronNum) { //<>// //<>//
+    layers = (Layer[]) append(layers, new Layer(connectionNum, neuronNum)); //<>// //<>//
+  } //<>// //<>//
 
   // Function to check the amount of layers created
   int getLayerCount() {
@@ -52,7 +52,7 @@ class NeuralNetwork {
   }
 
   // Function to return netOutputs
-  float[] getOutputs() { //<>//
+  float[] getOutputs() { //<>// //<>//
     return netOutputs;
   }
 
@@ -133,14 +133,17 @@ class NeuralNetwork {
   // Function to train the network until the Error is below a specific threshold
   void autoTrainNetwork(ArrayList trainingInputData, ArrayList trainingExpectedData, float trainingErrorTarget, int cycleLimit) {
     trainingError = 9999;
+    
     int trainingCounter = 0;
-
+    trainingStopwatch = millis();
+    
     while (trainingError>trainingErrorTarget && trainingCounter<cycleLimit) {
-
+      
       /* re-initialise the training Error with every cycle */
       trainingError=0;
 
       /* Cycle through the training data randomly */
+      println("Begin trainingCycle (counter): " + trainingCounter);
       trainingCycle(trainingInputData, trainingExpectedData, true);
 
       /* increment the training counter to prevent endless loop */
@@ -149,6 +152,7 @@ class NeuralNetwork {
 
     /* Due to the random nature in which this neural network is trained. There may be occasions when the training error may drop below the threshold. To check if this is the case, we will go through one more cycle (but sequentially this time), and check the trainingError for that cycle. If the training error is still below the trainingErrorTarget, then we will end the training session. If the training error is above the trainingErrorTarget, we will continue to train. It will do this check a  Maximum of 9 times. */
     if (trainingCounter<cycleLimit) {
+      println("TrainingCounter is smaller than cycleLimit");
       trainingCycle(trainingInputData, trainingExpectedData, false);
       trainingCounter++;
 
@@ -161,5 +165,7 @@ class NeuralNetwork {
     } else {
       println("CycleLimit has been reached. Has been retrained " + retrainChances + " times.  Error is = " + trainingError);
     }
+    trainingStopwatch = (millis() - trainingStopwatch)/1000;
+    println("Training round: " + trainingCounter + " Elapsed time: " + trainingStopwatch);
   }
 }
