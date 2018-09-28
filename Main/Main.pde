@@ -43,7 +43,7 @@ color guessIntroColor;
 //Neural Network
 NeuralNetwork nNetwork;
 float[] networkInputs = {};
-float[][] inputValues = new float[25][25];
+float[][] inputValues = new float[28][28];
 
 
 void setup() {
@@ -60,9 +60,9 @@ void setup() {
   surface.setLocation(500, 150);
 
   // load animations
-  logoAnimationRed = new Movie(this, "Videos/RedLogo.avi");
-  logoAnimationBlue = new Movie(this, "Videos/BlueLogo.avi");
-  
+  logoAnimationRed = new Movie(this, "Videos/RedLogo.mp4");
+  logoAnimationBlue = new Movie(this, "Videos/BlueLogo.mp4");
+
   // Miscellaneous
   noStroke();
   textFont(roboto);
@@ -72,8 +72,8 @@ void setup() {
   slideUp = true;
 
   // initialize inputValues for canvas; 0 means white 1 means black
-  for (int i = 0; i < 25; i++) {
-    for (int j = 0; j < 25; j++) {
+  for (int i = 0; i < 28; i++) {
+    for (int j = 0; j < 28; j++) {
       inputValues[i][j] = 0;
     }
   }
@@ -86,11 +86,9 @@ void draw() {
     // plays the animation in the beginning
     case "GUESSSTART":
       playAnimation(logoAnimationBlue);
-      println(logoAnimationBlue.time());
       // checking to see if the animation ended
       if (logoAnimationBlue.time() == logoAnimationBlue.duration()) {
         logoAnimationBlue.stop();
-        println("Animation Stopped");
         // setting slide up animation color to blue
         guessIntroColor = #0090e9;
         programState = "GUESS";
@@ -154,7 +152,7 @@ void mouseDragged() {
   // Draw on canvas and inputValues receives input
   if (programState == "GUESS") {
     if (canvas.mouseOverElement()) {
-      inputValues[int(canvas.getRelativePosition("y")/11.2)][int(canvas.getRelativePosition("x")/11.2)] = 1;
+      inputValues[int(canvas.getRelativePosition("y")/10)][int(canvas.getRelativePosition("x")/10)] = 1;
     }
   }
 }
@@ -244,16 +242,16 @@ void drawFrame() {
 }
 
 // Plays animations
-//    Should be noted that for some weird reasons, the video plays flipped horizontally.
+//    Should be noted that for some weird reasons, the AVI format plays flipped horizontally.
 //    It has to be scaled and flipped manually to play correctly.
 void playAnimation(Movie m) {
+   //m.play();
+   //pushMatrix();
+   //scale(1, -1);
+   //image(m, 0, -m.height);
+   //popMatrix();
    m.play();
-   pushMatrix();
-   scale(1, -1);
-   image(m, 0, -m.height);
-   popMatrix();
-  //m.play();
-  //image(m, 0, 0);
+   image(m, 0, 0);
 }
 
 // Required in order to use Movie library

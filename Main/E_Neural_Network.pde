@@ -1,12 +1,12 @@
-/* 
- This class is a container for the whole neural network, and the way to access other neural classes 
+/*
+ This class is a container for the whole neural network, and the way to access other neural classes
  */
 class NeuralNetwork {
   Layer[] layers = {};
   float[] netInputs = {};
   float[] netOutputs = {};
-  float learningRate, 
-    networkError, 
+  float learningRate,
+    networkError,
     trainingError;
   int retrainChances;
 
@@ -101,7 +101,7 @@ class NeuralNetwork {
           for (int k = 0; k < layers[i+1].getNeuronCount(); k++) {
             layers[i].neurons[j].deltaError += (layers[i + 1].neurons[k].connections[j].cWeight * layers[i + 1].neurons[k].deltaError);
           }
-          //equation for derivative of activation function 
+          //equation for derivative of activation function
           layers[i].neurons[j].deltaError *= (layers[i].neurons[j].nOutput * (1 - layers[i].neurons[j].nOutput));
         }
 

@@ -1,26 +1,26 @@
-/* 
- This class is a container for the whole neural network, and the way to access other neural classes 
+/*
+ This class is a container for the whole neural network, and the way to access other neural classes
  */
 class NeuralNetwork {
   Layer[] layers = {};
   float[] netInputs = {};
   float[] netOutputs = {};
-  float learningRate, 
-    networkError, 
+  float learningRate,
+    networkError,
     trainingError;
   int retrainChances;
 
   NeuralNetwork() {
-    learningRate = 0.1; // default learning rate
+    learningRate = 0.01; // default learning rate
   }
 
 
   // Methods
 
   // Function to add the right number of layers
-  void addLayer(int connectionNum, int neuronNum) { //<>//
-    layers = (Layer[]) append(layers, new Layer(connectionNum, neuronNum)); //<>//
-  } //<>//
+  void addLayer(int connectionNum, int neuronNum) { //<>// //<>//
+    layers = (Layer[]) append(layers, new Layer(connectionNum, neuronNum)); //<>// //<>//
+  } //<>// //<>//
 
   // Function to check the amount of layers created
   int getLayerCount() {
@@ -52,7 +52,7 @@ class NeuralNetwork {
   }
 
   // Function to return netOutputs
-  float[] getOutputs() { //<>//
+  float[] getOutputs() { //<>// //<>//
     return netOutputs;
   }
 
@@ -101,7 +101,7 @@ class NeuralNetwork {
           for (int k = 0; k < layers[i+1].getNeuronCount(); k++) {
             layers[i].neurons[j].deltaError += (layers[i + 1].neurons[k].connections[j].cWeight * layers[i + 1].neurons[k].deltaError);
           }
-          //equation for derivative of activation function 
+          //equation for derivative of activation function
           layers[i].neurons[j].deltaError *= (layers[i].neurons[j].nOutput * (1 - layers[i].neurons[j].nOutput));
         }
 
@@ -133,6 +133,7 @@ class NeuralNetwork {
   // Function to train the network until the Error is below a specific threshold
   void autoTrainNetwork(ArrayList trainingInputData, ArrayList trainingExpectedData, float trainingErrorTarget, int cycleLimit) {
     trainingError = 9999;
+
     int trainingCounter = 0;
 
     while (trainingError>trainingErrorTarget && trainingCounter<cycleLimit) {
@@ -141,7 +142,7 @@ class NeuralNetwork {
       trainingError=0;
 
       /* Cycle through the training data randomly */
-      trainingCycle(trainingInputData, trainingExpectedData, true);
+      trainingCycle(trainingInputData, trainingExpectedData, false);
 
       /* increment the training counter to prevent endless loop */
       trainingCounter++;
@@ -149,6 +150,7 @@ class NeuralNetwork {
 
     /* Due to the random nature in which this neural network is trained. There may be occasions when the training error may drop below the threshold. To check if this is the case, we will go through one more cycle (but sequentially this time), and check the trainingError for that cycle. If the training error is still below the trainingErrorTarget, then we will end the training session. If the training error is above the trainingErrorTarget, we will continue to train. It will do this check a  Maximum of 9 times. */
     if (trainingCounter<cycleLimit) {
+      println("TrainingCounter is smaller than cycleLimit");
       trainingCycle(trainingInputData, trainingExpectedData, false);
       trainingCounter++;
 
@@ -161,5 +163,6 @@ class NeuralNetwork {
     } else {
       println("CycleLimit has been reached. Has been retrained " + retrainChances + " times.  Error is = " + trainingError);
     }
+    println("Training round: " + trainingCounter + " Elapsed time: " + trainingStopwatch);
   }
 }
